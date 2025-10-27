@@ -39,7 +39,7 @@ jobs:
         run: |
           ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa \
             ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }} \
-            "mkdir -p /home/cpsadmin/Deployments/HiApi"
+            "mkdir -p /home/cpsadmin/Presentations/TestAPICICD"
 
       - name: Copy published files to server
         uses: appleboy/scp-action@v0.1.7
@@ -48,11 +48,11 @@ jobs:
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SERVER_SSH_KEY }}
           source: "publish/*"
-          target: /home/cpsadmin/Presentaion/TestAPICICD
+          target: /home/cpsadmin/Presentations/TestAPICICD
           strip_components: 1
 
-      # - name: Restart API service on server
-      #   run: |
-      #     ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa \
-      #       ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }} \
-      #       "sudo systemctl restart TestAPICICD || echo 'Service not found, skipping...'"
+      - name: Restart API service on server
+        run: |
+            ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa \
+            ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }} \
+            "sudo systemctl restart TestAPI || echo 'Service not found, skipping...'"
